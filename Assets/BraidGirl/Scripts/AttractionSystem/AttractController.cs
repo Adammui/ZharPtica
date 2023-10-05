@@ -8,11 +8,15 @@ namespace BraidGirl.Scripts.AttractionSystem
     public class AttractController : MonoBehaviour
     {
         [SerializeField]
+        private GameObject _character;
+        [SerializeField]
         private float _attractionSpeed;
         [SerializeField]
         private float _distance;
         [SerializeField]
         private float _delay;
+
+        private Animator _animator;
 
         private WaitForSeconds _waitDelay;
         private List<Vector3> _attractBoxes;
@@ -24,6 +28,7 @@ namespace BraidGirl.Scripts.AttractionSystem
         private void Awake()
         {
             _attractBoxes = new List<Vector3>();
+            _animator = _character.GetComponent<Animator>();
         }
 
         public void TryAttract()
@@ -31,6 +36,7 @@ namespace BraidGirl.Scripts.AttractionSystem
             if (!_isAttracting)
             {
                 _isAttracting = true;
+                _animator.Play("attraction");
                 Vector3 nearest = ChooseNearestAttractionBox();
                 StartCoroutine(Attract(nearest));
             }
