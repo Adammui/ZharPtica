@@ -39,7 +39,7 @@ namespace BraidGirl.Scripts.AI.Attack
             if (enemy.TryGetComponent(out HealthController health))
             {
                 health.Damage(_damage, transform.position);
-                _dash.StopDash();
+                ((EnemyDash)_dash).StopDash();
             }
         }
 
