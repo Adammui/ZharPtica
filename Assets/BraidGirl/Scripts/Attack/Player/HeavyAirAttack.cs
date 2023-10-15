@@ -6,20 +6,26 @@ using UnityEngine;
 namespace BraidGirl.Scripts.Attack.Player
 {
     /// <summary>
-    /// Выполнение слабой атаки
+    /// Выполнение сильной атаки в воздухе
     /// </summary>
-    public class LightAttack : BaseAttack
+    public class HeavyAirAttack : BaseAttack
     {
         [SerializeField]
         private float _duration;
+
+        [SerializeField] private float _gravityMultiplier;
+
+        private CharacterMovement _movement;
+        private float _defaultGravity;
         private int _attackHash;
-        private WaitForSeconds _waitDuration;
+        private Input _inputController;
+        private bool _isAttack;
 
         private new void Start()
         {
-            base.Start();
-            _waitDuration = new WaitForSeconds(_duration);
-            _attackHash = Animator.StringToHash("triggerAttack");
+            _inputController = GetComponent<Input>();
+            _movement = GetComponent<CharacterMovement>();
+            _attackHash = Animator.StringToHash("triggerRangedAttack");
         }
 
         protected override void HandleAttack(GameObject enemy)
@@ -31,12 +37,15 @@ namespace BraidGirl.Scripts.Attack.Player
         public override IEnumerator Attack()
         {
             Animator.SetTrigger(_attackHash);
+
+            _defaultGravity = _movement.Gravity;
+            _movement.Gravity *= _gravityMultiplier;
+
+            while (!_inputController.IsGrounded)
+                yield return new WaitForFixedUpdate();
+
             WeaponCollider.SetActive(true);
-#if UNITY_EDITOR
             yield return new WaitForSeconds(_duration);
-#else
-            yield return _waitDuration;
-#endif
             ResetAttack();
         }
 
@@ -46,6 +55,7 @@ namespace BraidGirl.Scripts.Attack.Player
         private void ResetAttack()
         {
             WeaponCollider.SetActive(false);
+            _movement.Gravity = _defaultGravity;
         }
     }
 }
