@@ -1,21 +1,19 @@
-﻿using System;
+using System;
 using System.Collections;
 using BraidGirl.Dash.Abstract;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace BraidGirl.Dash
 {
-    public class EnemyDash : BaseDash
+    public class PlayerDash : BaseDash
     {
-        private float _currTime;
-        private NavMeshAgent _agent;
         private float _duration;
-        private bool _dashStopped;
+        private float _currTime;
+        private CharacterController _characterController;
 
         private void Awake()
         {
-            _agent = GetComponent<NavMeshAgent>();
+            _characterController = GetComponent<CharacterController>();
             _duration = _distance.x / _speed;
         }
 
@@ -25,23 +23,16 @@ namespace BraidGirl.Dash
             while (_currTime <= _duration)
             {
                 _currTime += Time.deltaTime;
-                _agent.velocity = direction * _speed;
+                _characterController.Move(direction * (_speed * Time.deltaTime));
                 yield return null;
             }
-
-            _agent.velocity = Vector3.zero;
             _onReset.Invoke();
-        }
-
-        public override void StopDash()
-        {
-            _currTime = _duration;
-            _dashStopped = true;
         }
 
         public override void Init(Action reset)
         {
             _onReset = reset;
         }
+
     }
 }

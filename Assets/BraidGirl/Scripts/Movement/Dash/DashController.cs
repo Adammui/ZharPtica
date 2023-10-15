@@ -3,12 +3,19 @@ using UnityEngine;
 
 namespace BraidGirl.Dash
 {
-    public class DashController : MonoBehaviour
+    /// <summary>
+    /// Определяет возможность запуска дэша и запускает его
+    /// </summary>
+    public class DashController : MonoBehaviour, IExecute
     {
         private BaseDash _dash;
-
         private bool _canDash = true;
         private bool _isDashing;
+
+        /// <summary>
+        /// В данный момент выполняется дэш
+        /// </summary>
+        public bool IsDashing => _isDashing;
 
         private void Awake()
         {
@@ -16,7 +23,10 @@ namespace BraidGirl.Dash
             _dash.Init(ResetDash);
         }
 
-        public void Dash()
+        /// <summary>
+        /// Запуск дэша, при выполнении условий запуска
+        /// </summary>
+        public void Execute()
         {
             if (_canDash && !_isDashing)
             {
@@ -26,6 +36,9 @@ namespace BraidGirl.Dash
             }
         }
 
+        /// <summary>
+        /// Перезапуск дэша
+        /// </summary>
         private void ResetDash()
         {
             _canDash = true;
