@@ -8,14 +8,8 @@ using UnityEngine.Events;
 
 namespace BraidGirl.AI
 {
-    [RequireComponent(typeof(Moving),
-        typeof(DashAttack),
-        typeof(Patrol))]
-    [RequireComponent(typeof(DistanceChecker),
-        typeof(HealthController))]
     public class EnemyController_2 : MonoBehaviour
     {
-        private Moving _movement;
         private StateManager _stateManager;
         private PatrolController _patrolController;
         private AttackController _attackController;

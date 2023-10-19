@@ -1,4 +1,3 @@
-using System;
 using BraidGirl.Health;
 using BraidGirl.Scripts.AI.Patrol;
 using BraidGirl.Scripts.Push;
@@ -13,6 +12,7 @@ namespace BraidGirl.AI
         private HealthController _healthController;
         private PushController _pushController;
         private EnemyAttackController _enemyAttackController;
+
         private PatrolController _patrolController;
 
         private UnityEvent _onDeath;
