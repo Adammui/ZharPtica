@@ -6,7 +6,6 @@ using BraidGirl.Health;
 using BraidGirl.Rotating;
 using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
-using BaseAttack = BraidGirl.Scripts.AI.Attack.Abstract.BaseAttack;
 
 namespace BraidGirl.Scripts.AI.Attack
 {

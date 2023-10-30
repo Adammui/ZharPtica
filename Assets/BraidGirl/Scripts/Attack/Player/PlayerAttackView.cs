@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace BraidGirl.Scripts.Attack.Player
 {
+    /// <summary>
+    /// Содержит и запускает внешние эффекты/анимации персонажа
+    /// </summary>
     public class PlayerAttackView : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
@@ -18,6 +21,10 @@ namespace BraidGirl.Scripts.Attack.Player
             }
         }
 
+        /// <summary>
+        /// Активации эффектов/анимации
+        /// </summary>
+        /// <param name="attackType">Номер атаки, для активации эффекта</param>
         public void Activate(int attackType)
         {
             _animator.SetTrigger(_animationsHash[attackType]);

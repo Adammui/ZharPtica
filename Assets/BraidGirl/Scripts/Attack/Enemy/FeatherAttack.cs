@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace BraidGirl.Scripts.AI.Attack
 {
+    /// <summary>
+    /// Атака перьями
+    /// </summary>
     public class FeatherAttack : BaseProjectileAttack, IAttack
     {
         [Space(5)]

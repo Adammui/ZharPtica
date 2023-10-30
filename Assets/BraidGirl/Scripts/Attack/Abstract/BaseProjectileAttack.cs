@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace BraidGirl.Scripts.AI.Attack.Abstract
 {
+    /// <summary>
+    /// Дальняя атака с движущимися снарядами
+    /// </summary>
     public abstract class BaseProjectileAttack : MonoBehaviour
     {
         [SerializeField] private GameObject _projectile;

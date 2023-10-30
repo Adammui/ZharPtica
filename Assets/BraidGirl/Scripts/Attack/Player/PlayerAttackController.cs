@@ -10,6 +10,9 @@ namespace BraidGirl.Scripts.Attack.Player
     /// </summary>
     public class PlayerAttackController : IExecute, IInitialization
     {
+        /// <summary>
+        /// Нумерация атак игрока
+        /// </summary>
         private struct AttackType
         {
             public const int lightAttack = 0;
