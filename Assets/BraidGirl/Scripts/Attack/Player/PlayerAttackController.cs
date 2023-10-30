@@ -1,4 +1,6 @@
+using BraidGirl.Abstract;
 using BraidGirl.Attack;
+using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
 
 namespace BraidGirl.Scripts.Attack.Player
@@ -6,17 +8,25 @@ namespace BraidGirl.Scripts.Attack.Player
     /// <summary>
     /// Контроллер атаки игрока
     /// </summary>
-    public class PlayerAttackController
+    public class PlayerAttackController : IExecute, IInitialization
     {
+        private struct AttackType
+        {
+            public const int lightAttack = 0;
+            public const int heavyGroundAttack = 1;
+            public const int heavyAirAttack = 2;
+        }
+
         private bool _canAttack = true;
         private bool _isAttacking;
 
         private Input _inputController;
 
-        private BaseAttack _lightAttack;
-        private BaseAttack _groundHeavyAttack;
-        private BaseAttack _airHeavyAttack;
-        private MonoBehaviour _monoBehaviour;
+        private IAttack _lightAttack;
+        private IAttack _groundHeavyAttack;
+        private IAttack _airHeavyAttack;
+
+        private PlayerAttackView _playerAttackView;
 
         public bool IsAttacking => _isAttacking;
 
@@ -27,15 +37,15 @@ namespace BraidGirl.Scripts.Attack.Player
             _lightAttack = player.GetComponent<LightAttack>();
             _groundHeavyAttack = player.GetComponent<HeavyAttack>();
             _airHeavyAttack = player.GetComponent<HeavyAirAttack>();
+            _playerAttackView = player.GetComponent<PlayerAttackView>();
 
-            _monoBehaviour = _lightAttack;
             AttackTransitionBehaviour.s_onResetAttack = ResetAttack;
         }
 
         /// <summary>
         /// Попытаться выполнить атаку
         /// </summary>
-        public void TryAttack()
+        public void Execute()
         {
             if (_canAttack && !_isAttacking)
             {
@@ -44,7 +54,8 @@ namespace BraidGirl.Scripts.Attack.Player
 
                 if (_inputController.IsLightAttack)
                 {
-                    _monoBehaviour.StartCoroutine(_lightAttack.Attack());
+                    _playerAttackView.Activate(AttackType.lightAttack);
+                    _lightAttack.Attack();
                 }
                 else if (_inputController.IsHeavyAttack)
                 {
@@ -58,9 +69,16 @@ namespace BraidGirl.Scripts.Attack.Player
         /// </summary>
         private void HandleHeavyAttack()
         {
-            _monoBehaviour.StartCoroutine(_inputController.IsGrounded
-                ? _groundHeavyAttack.Attack()
-                : _airHeavyAttack.Attack());
+            if (_inputController.IsGrounded)
+            {
+                _playerAttackView.Activate(AttackType.heavyGroundAttack);
+                _groundHeavyAttack.Attack();
+            }
+            else
+            {
+                _playerAttackView.Activate(AttackType.heavyAirAttack);
+                _airHeavyAttack.Attack();
+            }
         }
 
         /// <summary>

@@ -252,6 +252,35 @@ Transform:
   m_Father: {fileID: 1325978814}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &591102365 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9016525756809463592, guid: 73faa66fdd094eb4083175a5abdc8c0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117814312}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &591102385 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9016525756809463607, guid: 73faa66fdd094eb4083175a5abdc8c0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117814312}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &591102386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591102365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a3f3bad70608d4c9bb7c39e21d504a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 591102385}
+  _animationsTransitions:
+  - triggerAttack
+  - triggerRangedAttack
+  - triggerRangedAttack
 --- !u!1 &861429655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1903712152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1199,8 +1228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a0d28609cacc64dbad7cad5b4d7f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 1903712156}
-  _damage: 1
 --- !u!54 &1903712158
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1284,7 +1311,7 @@ PrefabInstance:
     - target: {fileID: 1479472133275280486, guid: 525edc11f296ac743b8a32d5165b4e36,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1479472133275280494, guid: 525edc11f296ac743b8a32d5165b4e36,
         type: 3}
@@ -1346,21 +1373,6 @@ PrefabInstance:
       propertyPath: _caveEnter
       value: 
       objectReference: {fileID: 1653650128}
-    - target: {fileID: 1479472133275280511, guid: 525edc11f296ac743b8a32d5165b4e36,
-        type: 3}
-      propertyPath: _increaseTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479472133275280511, guid: 525edc11f296ac743b8a32d5165b4e36,
-        type: 3}
-      propertyPath: _stopAttackAngle
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479472133275280511, guid: 525edc11f296ac743b8a32d5165b4e36,
-        type: 3}
-      propertyPath: _increasedAttackAngle
-      value: -10
-      objectReference: {fileID: 0}
     - target: {fileID: 7261899855537828495, guid: 525edc11f296ac743b8a32d5165b4e36,
         type: 3}
       propertyPath: _minHealthChangeDamageType
@@ -1375,6 +1387,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6666342298521340458, guid: 845afe2b1ab73054f953f846df1f0ad8,
+        type: 3}
+      propertyPath: _speed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7567584622589601522, guid: 845afe2b1ab73054f953f846df1f0ad8,
         type: 3}
       propertyPath: m_Name
@@ -1440,6 +1457,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7567584622589601533, guid: 845afe2b1ab73054f953f846df1f0ad8,
+        type: 3}
+      propertyPath: _areaList.Array.data[0].areaSize.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567584622589601533, guid: 845afe2b1ab73054f953f846df1f0ad8,
+        type: 3}
+      propertyPath: _areaList.Array.data[1].areaSize.x
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7567584622589601535, guid: 845afe2b1ab73054f953f846df1f0ad8,
         type: 3}
       propertyPath: _points.Array.data[0]
@@ -1450,8 +1477,7 @@ PrefabInstance:
       propertyPath: _points.Array.data[1]
       value: 
       objectReference: {fileID: 991336777}
-    m_RemovedComponents:
-    - {fileID: 7567584622589601529, guid: 845afe2b1ab73054f953f846df1f0ad8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 845afe2b1ab73054f953f846df1f0ad8, type: 3}
 --- !u!1001 &8074108203518289999
 PrefabInstance:

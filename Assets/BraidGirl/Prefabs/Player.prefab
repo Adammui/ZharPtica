@@ -6825,6 +6825,7 @@ GameObject:
   - component: {fileID: 5969102913252459178}
   - component: {fileID: 8646515798268864453}
   - component: {fileID: 859247321953904635}
+  - component: {fileID: 5383483707115105491}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -6995,7 +6996,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 9016525755005696446}
   _characterSpeed: 4
-  _rotationFactorPerFrame: 15
   _gravity: -9.8
   _groundedGravity: -0.05
   _maxJumpHeight: 2
@@ -7012,11 +7012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1d7c232d8245a1918a03a63e80a618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponCollider: {fileID: 3012891365206347712}
-  _animator: {fileID: 9016525756809463607}
   _weapon: {fileID: 2155948793862348151}
   _damage: 2
   _duration: 0.1
+  _weaponCollider: {fileID: 3012891365206347712}
 --- !u!114 &4991150436690049689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7029,11 +7028,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ed7cfa1234457f84e0f10d9d5250cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponCollider: {fileID: 5588560253748451244}
-  _animator: {fileID: 9016525756809463607}
   _weapon: {fileID: 7954097574802962427}
   _damage: 2
   _duration: 0.1
+  _weaponCollider: {fileID: 5588560253748451244}
 --- !u!114 &2450523801652038989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7046,11 +7044,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60aaf1f599e2a684ebc6cfc99bf5adf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponCollider: {fileID: 4453873815398199259}
-  _animator: {fileID: 9016525756809463607}
   _weapon: {fileID: 2372963944484529611}
   _damage: 1
   _duration: 0.1
+  _weaponCollider: {fileID: 4453873815398199259}
   _gravityMultiplier: 4
 --- !u!114 &2938388129065498031
 MonoBehaviour:
@@ -7151,6 +7148,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundedGravity: -0.05
+--- !u!114 &5383483707115105491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9016525756809463592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a3f3bad70608d4c9bb7c39e21d504a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 9016525756809463607}
+  _animationsTransitions:
+  - triggerAttack
+  - triggerRangedAttack
+  - triggerRangedAttack
 --- !u!1 &9033862028375618722
 GameObject:
   m_ObjectHideFlags: 0

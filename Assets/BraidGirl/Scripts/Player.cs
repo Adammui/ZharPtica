@@ -147,7 +147,7 @@ namespace BraidGirl
             }
             else if ((_playerAttackController.IsAttacking && !_playerInput.IsLightAttack) || _playerInput.IsHeavyAttack)
             {
-                _playerAttackController.TryAttack();
+                _playerAttackController.Execute();
                 _characterMovement.HandleGravity();
             }
             else
@@ -156,7 +156,7 @@ namespace BraidGirl
                 HandleAnimation();
 
                 if(_playerInput.IsLightAttack)
-                    _playerAttackController.TryAttack();
+                    _playerAttackController.Execute();
 
                 _characterMovement.HandleGravity();
                 _characterMovement.HandleJump();

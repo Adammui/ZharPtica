@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using BraidGirl.Health;
+using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
 
 namespace BraidGirl.Attack
@@ -8,20 +9,21 @@ namespace BraidGirl.Attack
     /// <summary>
     /// Выполнение сильной атаки
     /// </summary>
-    public class HeavyAttack : BaseAttack
+    public class HeavyAttack : BaseAttack, IAttack
     {
         [SerializeField]
         private float _duration;
 
+        [SerializeField]
+        private GameObject _weaponCollider;
+
         private Action _onResetAttack;
-        private int _attackHash;
         private WaitForSeconds _waitDuration;
 
         private new void Start()
         {
             base.Start();
             _waitDuration = new WaitForSeconds(_duration);
-            _attackHash = Animator.StringToHash("triggerRangedAttack");
         }
 
         protected override void HandleAttack(GameObject enemy)
@@ -30,10 +32,14 @@ namespace BraidGirl.Attack
                 health.Damage(Damage, transform.position);
         }
 
-        public override IEnumerator Attack()
+        public void Attack()
         {
-            Animator.SetTrigger(_attackHash);
-            WeaponCollider.SetActive(true);
+            StartCoroutine(Activate());
+        }
+
+        private IEnumerator Activate()
+        {
+            _weaponCollider.SetActive(true);
 
 #if UNITY_EDITOR
             yield return new WaitForSeconds(_duration);
@@ -48,7 +54,7 @@ namespace BraidGirl.Attack
         /// </summary>
         private void ResetAttack()
         {
-            WeaponCollider.SetActive(false);
+            _weaponCollider.SetActive(false);
         }
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections;
-using BraidGirl.Attack;
 using BraidGirl.Health;
+using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
 
 namespace BraidGirl.Scripts.Attack.Player
@@ -8,16 +8,17 @@ namespace BraidGirl.Scripts.Attack.Player
     /// <summary>
     /// Выполнение сильной атаки в воздухе
     /// </summary>
-    public class HeavyAirAttack : BaseAttack
+    public class HeavyAirAttack : BaseAttack, IAttack
     {
         [SerializeField]
         private float _duration;
-
-        [SerializeField] private float _gravityMultiplier;
+        [SerializeField]
+        private GameObject _weaponCollider;
+        [SerializeField]
+        private float _gravityMultiplier;
 
         private CharacterMovement _movement;
         private float _defaultGravity;
-        private int _attackHash;
         private Input _inputController;
         private bool _isAttack;
 
@@ -25,7 +26,6 @@ namespace BraidGirl.Scripts.Attack.Player
         {
             _inputController = GetComponent<Input>();
             _movement = GetComponent<CharacterMovement>();
-            _attackHash = Animator.StringToHash("triggerRangedAttack");
         }
 
         protected override void HandleAttack(GameObject enemy)
@@ -34,19 +34,23 @@ namespace BraidGirl.Scripts.Attack.Player
                 health.Damage(Damage, transform.position);
         }
 
-        public override IEnumerator Attack()
+        public void Attack()
         {
-            Animator.SetTrigger(_attackHash);
+            StartCoroutine(Activate());
+        }
 
+        private IEnumerator Activate()
+        {
             _defaultGravity = _movement.Gravity;
             _movement.Gravity *= _gravityMultiplier;
 
             while (!_inputController.IsGrounded)
                 yield return new WaitForFixedUpdate();
 
-            WeaponCollider.SetActive(true);
+            _weaponCollider.SetActive(true);
             yield return new WaitForSeconds(_duration);
             ResetAttack();
+
         }
 
         /// <summary>
@@ -54,7 +58,7 @@ namespace BraidGirl.Scripts.Attack.Player
         /// </summary>
         private void ResetAttack()
         {
-            WeaponCollider.SetActive(false);
+            _weaponCollider.SetActive(false);
             _movement.Gravity = _defaultGravity;
         }
     }

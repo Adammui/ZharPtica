@@ -1,6 +1,6 @@
 using System.Collections;
-using BraidGirl.Attack;
 using BraidGirl.Health;
+using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
 
 namespace BraidGirl.Scripts.Attack.Player
@@ -8,18 +8,19 @@ namespace BraidGirl.Scripts.Attack.Player
     /// <summary>
     /// Выполнение слабой атаки
     /// </summary>
-    public class LightAttack : BaseAttack
+    public class LightAttack : BaseAttack, IAttack
     {
         [SerializeField]
         private float _duration;
-        private int _attackHash;
+        [SerializeField]
+        private GameObject _weaponCollider;
+
         private WaitForSeconds _waitDuration;
 
         private new void Start()
         {
             base.Start();
             _waitDuration = new WaitForSeconds(_duration);
-            _attackHash = Animator.StringToHash("triggerAttack");
         }
 
         protected override void HandleAttack(GameObject enemy)
@@ -28,10 +29,14 @@ namespace BraidGirl.Scripts.Attack.Player
                 health.Damage(Damage, transform.position);
         }
 
-        public override IEnumerator Attack()
+        public void Attack()
         {
-            Animator.SetTrigger(_attackHash);
-            WeaponCollider.SetActive(true);
+            StartCoroutine(Activate());
+        }
+
+        private IEnumerator Activate()
+        {
+            _weaponCollider.SetActive(true);
 #if UNITY_EDITOR
             yield return new WaitForSeconds(_duration);
 #else
@@ -45,7 +50,7 @@ namespace BraidGirl.Scripts.Attack.Player
         /// </summary>
         private void ResetAttack()
         {
-            WeaponCollider.SetActive(false);
+            _weaponCollider.SetActive(false);
         }
     }
 }
