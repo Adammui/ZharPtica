@@ -1,15 +1,13 @@
-using System;
-using System.Collections;
-using UnityEngine;
-
-namespace BraidGirl.Attack
+namespace BraidGirl.Scripts.AI.Attack.Abstract
 {
+    /// <summary>
+    /// Реализует ненаправленную атаку
+    /// </summary>
     public interface IAttack
     {
-        public GameObject WeaponCollider { get; }
-        public Weapon Weapon { get; }
-        public int Damage { get; }
-        public IEnumerator Attack();
-        public void ResetAttack();
+        /// <summary>
+        /// Выполнение ненаправленной атаки
+        /// </summary>
+        public void Attack();
     }
 }

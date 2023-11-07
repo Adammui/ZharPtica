@@ -1,10 +1,12 @@
+using BraidGirl.Dash;
+using BraidGirl.Gravity;
 using BraidGirl.Health;
+using BraidGirl.Jump;
+using BraidGirl.Scripts.Attack.Player;
 using BraidGirl.Scripts.AttractionSystem;
 using BraidGirl.Scripts.Push;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
-using System.Collections;
 
 namespace BraidGirl
 {
@@ -27,8 +29,6 @@ namespace BraidGirl
         private int _lastCheckpointId = 0;
 
         [SerializeField]
-        private CharacterAttackController _characterAttackController;
-        [SerializeField]
         private AttractController _attractController;
         [SerializeField]
         private GroundChecker _groundChecker;
@@ -36,6 +36,13 @@ namespace BraidGirl
         private PushController _pushController;
         [SerializeField]
         private HealthController _healthController;
+        [SerializeField]
+        private DashController _dashController;
+
+        private PlayerAttackController _playerAttackController;
+        private JumpController _jumpController;
+        private GravityController _gravityController;
+
 
         private UnityEvent _onDeath;
         private UnityEvent<Vector3> _onDamage;
@@ -46,23 +53,25 @@ namespace BraidGirl
         private int _isJumpingHash;
         private bool _isJumpAnimating = false;
 
-
-        // death handle
-        private WaitForSeconds _waitDeathDuration;
-        [SerializeField]
-        private float _deathAnimDuration;
-
-
         private void Awake()
         {
+            _playerAttackController = new ();
+            _gravityController = new GravityController();
+            _jumpController = new JumpController(_gravityController);
+
             _onDeath = new UnityEvent();
             _onDamage = new UnityEvent<Vector3>();
             _onDeath.AddListener(Death);
             _onDamage.AddListener(_pushController.HandlePush);
 
+            _playerAttackController.Init(transform.GetChild(0).gameObject);
+            _gravityController.Init(transform.GetChild(0).gameObject);
+            _jumpController.Init(transform.GetChild(0).gameObject);
+
             _animator = _character.GetComponent<Animator>();
             _isWalkingHash = Animator.StringToHash("isWalking");
             _isJumpingHash = Animator.StringToHash("isJumping");
+
             _healthController.Init(_onDeath, _onDamage);
             //gameObject.transform.position = _lastCheckpointPos;
         }
@@ -101,25 +110,10 @@ namespace BraidGirl
         {
             return _lastCheckpointId;
         }
-        public void Death()
+        private void Death()
         {
-            Debug.Log("Player died");
             _characterController = _character.GetComponent<CharacterController>();
-            _waitDeathDuration = new WaitForSeconds(_deathAnimDuration);
-            StartCoroutine(HandleDeath());
-
-        }
-        public IEnumerator HandleDeath()
-        {
-            _animator.Play("Death");
-            yield return _waitDeathDuration;
-            HandleRevive();
-        }
-        public void HandleRevive()
-        {
-            Debug.Log("Player revived");
             _characterController.Move(GetLastCheckPoint() - _character.transform.position);
-            _animator.Play("Stand_up");
             _healthController.Revive();
         }
 
@@ -141,32 +135,34 @@ namespace BraidGirl
 
         private void Update()
         {
-            _characterMovement.HandleRotation();
-            HandleAnimation();
-            if (!_pushController.IsPushing)
-            {
-                if ((_playerInput.IsAttractPressed && _attractController.CanAttract) || _attractController.IsAttracting)
-                {
-                    _attractController.TryAttract();
-                }
-                else
-                {
-                    if (_playerInput.IsLightAttack && !_characterAttackController.isAttacking)
-                        _characterAttackController.HandleLightAttack();
-                    else if (_playerInput.IsHeavyAttack && !_characterAttackController.isAttacking)
-                        _characterAttackController.HandleHeavyAttack();
-                    else if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) { }
-                    else if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Stand_up")) { }
-                    else if (!_animator.GetCurrentAnimatorStateInfo(1).IsName("Idle")) // remove to make character move while attacking
-                        _characterMovement.MoveY();
-                    else if (_animator.GetCurrentAnimatorStateInfo(1).IsName("Idle"))
-                        _characterMovement.Move();
+            if (_pushController.IsPushing) return;
 
-                }
+            if (_attractController.IsAttracting || _playerInput.IsAttractPressed)
+            {
+                _attractController.TryAttract();
+            }
+            else if (_dashController.IsDashing || _playerInput.IsDashPressed)
+            {
+                _dashController.Execute();
+            }
+            else if ((_playerAttackController.IsAttacking && !_playerInput.IsLightAttack) || _playerInput.IsHeavyAttack)
+            {
+                _playerAttackController.Execute();
+                _characterMovement.HandleGravity();
+            }
+            else
+            {
+                _characterMovement.HandleRotation();
+                HandleAnimation();
+
+                if(_playerInput.IsLightAttack)
+                    _playerAttackController.Execute();
 
                 _characterMovement.HandleGravity();
                 _characterMovement.HandleJump();
-                _characterMovement.HandleDash();
+                // if(_playerInput.IsJumpPressed || _jumpController.IsJumping)
+                //     _jumpController.Execute();
+                _characterMovement.Move();
             }
         }
     }

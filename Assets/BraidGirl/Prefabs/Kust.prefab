@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6767029683186868665}
   - component: {fileID: 3702040409881512315}
   - component: {fileID: 5839340037044874663}
-  - component: {fileID: 7477879796120384348}
+  - component: {fileID: 5085710822794177850}
   m_Layer: 16
   m_Name: Kust
   m_TagString: Untagged
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0f3371a61048b9996734af49c3bcf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7477879796120384348
+--- !u!114 &5085710822794177850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 9134342588555837467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 978e854fc76368f4b92257de6a5928de, type: 3}
+  m_Script: {fileID: 11500000, guid: 33c09e03e6b9646408c1e5d70ed72547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weapon: {fileID: 5839340037044874663}
   _damage: 1

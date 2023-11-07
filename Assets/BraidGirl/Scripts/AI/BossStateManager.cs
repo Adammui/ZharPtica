@@ -1,19 +1,49 @@
 using BraidGirl.Scripts.AI.Attack;
+using BraidGirl.Scripts.Health;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace BraidGirl.AI
 {
-    public class BossStateManager : IExecute
+    public class BossStateManager : MonoBehaviour
     {
-        private BossAttackController _bossAttackController;
+        [SerializeField]
+        private GameObject _caveEnter;
 
-        public BossStateManager(BossAttackController bossAttackController)
+        private BossAttackController _bossAttackController;
+        private BossHealthController _healthController;
+        private UnityEvent _onDeath;
+
+        private void Awake()
         {
-            _bossAttackController = bossAttackController;
+            _onDeath = new UnityEvent();
+
+            _bossAttackController = new BossAttackController();
+            _healthController = GetComponent<BossHealthController>();
         }
 
-        public void Execute()
+        private void Start()
+        {
+            InitControllers();
+        }
+
+        private void InitControllers()
+        {
+            _onDeath.AddListener(OnDeath);
+
+            _bossAttackController.Init(gameObject);
+            _healthController.Init(_onDeath);
+        }
+
+        private void Update()
         {
             _bossAttackController.Execute();
+        }
+
+        private void OnDeath()
+        {
+            Destroy(_caveEnter);
+            enabled = false;
         }
     }
 }

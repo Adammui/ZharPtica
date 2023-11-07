@@ -1,47 +1,41 @@
-using System;
 using System.Collections;
 using BraidGirl.Health;
-using BraidGirl.Scripts.Health;
+using BraidGirl.Scripts.AI.Attack.Abstract;
 using UnityEngine;
 
-namespace BraidGirl.Attack
+namespace BraidGirl.Scripts.Attack.Player
 {
-    public class LightAttack : MonoBehaviour, IAttack
+    /// <summary>
+    /// Выполнение слабой атаки
+    /// </summary>
+    public class LightAttack : BaseAttack, IAttack
     {
         [SerializeField]
-        private int _damage;
+        private float _duration;
         [SerializeField]
         private GameObject _weaponCollider;
-        [SerializeField]
-        private Weapon _weapon;
-        [SerializeField]
-        private float _duration;
 
-        public GameObject WeaponCollider => _weaponCollider;
-        public Weapon Weapon => _weapon;
-        public int Damage => _damage;
-
-        private Animator _animator;
-        private int _attackHash;
         private WaitForSeconds _waitDuration;
 
-        private void Start()
+        private new void Start()
         {
-            _animator = GetComponent<Animator>();
+            base.Start();
             _waitDuration = new WaitForSeconds(_duration);
-            _attackHash = Animator.StringToHash("triggerAttack");
-            _weapon.Init(HandleAttack);
         }
 
-        private void HandleAttack(GameObject enemy)
+        protected override void HandleAttack(GameObject enemy)
         {
-            if (enemy != gameObject & enemy.TryGetComponent(out BaseHealthController health))
-                health.Damage(_damage, transform.position);
+            if (enemy.TryGetComponent(out BaseHealthController health))
+                health.Damage(Damage, transform.position);
         }
 
-        public IEnumerator Attack()
+        public void Attack()
         {
-            _animator.SetTrigger(_attackHash);
+            StartCoroutine(Activate());
+        }
+
+        private IEnumerator Activate()
+        {
             _weaponCollider.SetActive(true);
 #if UNITY_EDITOR
             yield return new WaitForSeconds(_duration);
@@ -51,7 +45,10 @@ namespace BraidGirl.Attack
             ResetAttack();
         }
 
-        public void ResetAttack()
+        /// <summary>
+        /// Сброс атаки
+        /// </summary>
+        private void ResetAttack()
         {
             _weaponCollider.SetActive(false);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using BraidGirl.Scripts.Push.Abstract;
 using UnityEngine;
 
@@ -6,12 +7,6 @@ namespace BraidGirl.Scripts.Push
 {
     public class PlayerPush : BasePush
     {
-        private PushController _pushController;
-        private void Awake()
-        {
-            _pushController = GetComponent<PushController>();
-        }
-
         public override IEnumerator HandlePush(Vector3 direction)
         {
             Vector3 directionDistance = _distance;
@@ -27,8 +22,7 @@ namespace BraidGirl.Scripts.Push
                 normalizedTime += Time.deltaTime / _duration;
                 yield return new WaitForEndOfFrame();
             }
-
-            _pushController.IsPushing = false;
+            _onReset.Invoke();
         }
     }
 }

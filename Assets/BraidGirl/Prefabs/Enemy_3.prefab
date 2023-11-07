@@ -141,12 +141,12 @@ GameObject:
   - component: {fileID: 1479472133275280481}
   - component: {fileID: 1479472133275280482}
   - component: {fileID: 1479472133275280510}
-  - component: {fileID: 1479472133275280511}
   - component: {fileID: 1479472133275280509}
   - component: {fileID: 1479472133275280508}
   - component: {fileID: 1479472133275280506}
   - component: {fileID: 2968779791329208758}
   - component: {fileID: 7261899855537828495}
+  - component: {fileID: 7255049728686130716}
   m_Layer: 15
   m_Name: Enemy_3
   m_TagString: Untagged
@@ -271,29 +271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _caveEnter: {fileID: 0}
---- !u!114 &1479472133275280511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479472133275280486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53fd815105bb3e74f9692e7708ee2b34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _feather: {fileID: 5969728633519799598, guid: 108b0fa5299986444b5ac96aa5d96c84,
-    type: 3}
-  _featherSpawnPoints:
-  - {fileID: 21264664993058448}
-  - {fileID: 21264665425780182}
-  - {fileID: 21264666238005948}
-  _delayNextAttack: 0.2
-  _spawnPoints: {fileID: 21264666236507103}
-  _increasedAttackAngle: -5
-  _increaseTime: 0.5
-  _stopAttackAngle: 0
 --- !u!114 &1479472133275280509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,9 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f790c4b39f2cba43b6ed1372e5ec09c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponCollider: {fileID: 1479472134441041220}
   _weapon: {fileID: 1479472134441041219}
   _damage: 2
+  _weaponCollider: {fileID: 1479472134441041220}
   _rest: {fileID: 2968779791329208758}
 --- !u!114 &1479472133275280506
 MonoBehaviour:
@@ -374,6 +351,29 @@ MonoBehaviour:
   _health:
     _maxHealth: 10
   _minHealthChangeDamageType: 0.2
+--- !u!114 &7255049728686130716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479472133275280486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53fd815105bb3e74f9692e7708ee2b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 5969728633519799598, guid: 108b0fa5299986444b5ac96aa5d96c84,
+    type: 3}
+  _spawnPoints:
+  - {fileID: 21264664993058448}
+  - {fileID: 21264665425780182}
+  - {fileID: 21264666238005948}
+  _spawnDelay: 1
+  _spawnPoint: {fileID: 21264666236507103}
+  _increasedAttackAngle: 1
+  _increaseTime: 1
+  _stopAttackAngle: 45
 --- !u!1 &1479472134441041222
 GameObject:
   m_ObjectHideFlags: 0
