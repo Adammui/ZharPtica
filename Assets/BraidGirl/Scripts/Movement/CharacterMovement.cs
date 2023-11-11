@@ -42,9 +42,9 @@ namespace BraidGirl
         // Jumping variable
         [Header("Jump")]
         [SerializeField]
-        private float _maxJumpHeight = 2.0f;
+        private float _jumpHeight = 2.0f;
         [SerializeField]
-        private float _maxJumpTime = 0.75f;
+        private float _maxJumpTime = 2.0f;
         private float _initialJumpVelocity;
         private bool _isJumping = false;
 
@@ -61,8 +61,8 @@ namespace BraidGirl
         private void SetupJumpVariables()
         {
             float timeToApex = _maxJumpTime / 2;
-            _gravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-            _initialJumpVelocity = (2 * _maxJumpHeight) / timeToApex;
+            _gravity = -2 * _jumpHeight;
+            _initialJumpVelocity = 2 * _jumpHeight;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace BraidGirl
         /// </summary>
         public void HandleJump()
         {
-            if (!_isJumping && _playerInput.IsGrounded && _playerInput.IsJumpPressed)
+            if (!_isJumping && _playerInput.IsGrounded)
             {
                 _player.JumpingAnim(true, true);
                 _isJumping = true;
@@ -112,7 +112,7 @@ namespace BraidGirl
         /// </summary>
         public void HandleGravity()
         {
-            bool isFalling = _currentMovement.y <= 0.0f || !_playerInput.IsJumpPressed;
+            bool isFalling = _currentMovement.y <= 0.0f; //|| !_playerInput.IsJumpPressed;
             float fallMultiplier = 2.0f;
             // Apply proper gravity depending on if the character is grounded or not
             if (_playerInput.IsGrounded)

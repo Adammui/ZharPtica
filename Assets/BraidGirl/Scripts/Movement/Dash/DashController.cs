@@ -11,7 +11,8 @@ namespace BraidGirl.Dash
         private BaseDash _dash;
         private bool _canDash = true;
         private bool _isDashing;
-
+        public float _dashingCooldownTime = 2.0f;
+        public float _lastDashTime;
         /// <summary>
         /// В данный момент выполняется дэш
         /// </summary>
@@ -28,11 +29,17 @@ namespace BraidGirl.Dash
         /// </summary>
         public void Execute()
         {
-            if (_canDash && !_isDashing)
+            if (_canDash && !_isDashing && (_lastDashTime + _dashingCooldownTime < Time.time))
             {
+                _lastDashTime = Time.time;
                 _canDash = false;
                 _isDashing = true;
                 StartCoroutine(_dash.Dash(transform.forward));
+            }
+            else if (_isDashing)
+            {
+                _canDash = true;
+                _isDashing = false;
             }
         }
 
@@ -41,8 +48,8 @@ namespace BraidGirl.Dash
         /// </summary>
         private void ResetDash()
         {
-            _canDash = true;
-            _isDashing = false;
+           // _canDash = true;
+           // _isDashing = false;
         }
     }
 }

@@ -43,6 +43,9 @@ namespace BraidGirl
         private JumpController _jumpController;
         private GravityController _gravityController;
 
+        //Dash
+        public float _dashingCooldownTime = 2.0f;
+        public float _lastDashTime;
 
         private UnityEvent _onDeath;
         private UnityEvent<Vector3> _onDamage;
@@ -141,8 +144,9 @@ namespace BraidGirl
             {
                 _attractController.TryAttract();
             }
-            else if (_dashController.IsDashing || _playerInput.IsDashPressed)
+            else if (_playerInput.IsDashPressed && (_lastDashTime + _dashingCooldownTime < Time.time))
             {
+                _lastDashTime = Time.time;
                 _dashController.Execute();
             }
             else if ((_playerAttackController.IsAttacking && !_playerInput.IsLightAttack) || _playerInput.IsHeavyAttack)
@@ -159,9 +163,8 @@ namespace BraidGirl
                     _playerAttackController.Execute();
 
                 _characterMovement.HandleGravity();
-                _characterMovement.HandleJump();
-                // if(_playerInput.IsJumpPressed || _jumpController.IsJumping)
-                //     _jumpController.Execute();
+                 if(_playerInput.IsJumpPressed )
+                    _characterMovement.HandleJump();// _jumpController.Execute();
                 _characterMovement.Move();
             }
         }

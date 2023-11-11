@@ -32,9 +32,10 @@ namespace BraidGirl.Jump
             {
                 _isJumping = true;
                 _jumpView.Activate();
+                _jumpModel.Jump();
             }
 
-            _jumpModel.Jump();
+           
         }
 
         private void ResetJump()
