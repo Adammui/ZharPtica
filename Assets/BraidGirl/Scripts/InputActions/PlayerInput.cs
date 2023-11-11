@@ -293,7 +293,7 @@ namespace BraidGirl
                 {
                     ""name"": """",
                     ""id"": ""14c17107-7359-4db5-beec-b757dfbb5155"",
-                    ""path"": ""<Keyboard>/alt"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",

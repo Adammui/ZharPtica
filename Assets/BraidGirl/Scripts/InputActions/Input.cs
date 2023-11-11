@@ -15,19 +15,48 @@ namespace BraidGirl
         private bool _isHeavyAttack;
         private Vector2 _currentMovementInput;
 
+        /// <summary>
+        /// Нажата кнопка движения
+        /// </summary>
         public bool IsMovementPressed => _isMovementPressed;
+
+        /// <summary>
+        /// Нажата кнопка рывка
+        /// </summary>
         public bool IsDashPressed => _isDashPressed;
+
+        /// <summary>
+        /// Нажата кнопка прыжка
+        /// </summary>
         public bool IsJumpPressed => _isJumpPressed;
+
+        /// <summary>
+        /// Нажата кнопка притягивания
+        /// </summary>
         public bool IsAttractPressed => _isAttractPressed;
+
+        /// <summary>
+        /// Нажата кнопка легкой атаки
+        /// </summary>
         public bool IsLightAttack => _isLightAttack;
+
+        /// <summary>
+        /// Нажата кнопка тяжелой атаки
+        /// </summary>
         public bool IsHeavyAttack => _isHeavyAttack;
 
+        /// <summary>
+        /// Игрок на земле
+        /// </summary>
         public bool IsGrounded
         {
             get => _isGrounded;
             set => _isGrounded = value;
         }
 
+        /// <summary>
+        /// Направление движения игрока
+        /// </summary>
         public Vector2 CurrentMovementInput => _currentMovementInput;
 
         private void Awake()

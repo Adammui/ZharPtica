@@ -8,7 +8,13 @@ namespace BraidGirl.Scripts.Push.Abstract
     {
         [SerializeField] protected Vector3 _distance;
         [SerializeField] protected float _speed;
+        protected Action _onReset;
 
         public abstract IEnumerator HandlePush(Vector3 direction);
+
+        public void Init(Action onReset)
+        {
+            _onReset = onReset;
+        }
     }
 }

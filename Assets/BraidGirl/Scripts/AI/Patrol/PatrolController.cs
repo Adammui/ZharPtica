@@ -1,5 +1,6 @@
 using BraidGirl.Abstract;
 using BraidGirl.AI.Movement;
+using BraidGirl.AI.Rotation;
 using UnityEngine;
 
 namespace BraidGirl.Scripts.AI.Patrol
@@ -8,13 +9,15 @@ namespace BraidGirl.Scripts.AI.Patrol
     {
         private Patrol _patrol;
         private DistanceChecker _distanceChecker;
-        private Moving _movement;
+        private BaseMovementController _movementController;
+        private RotationController _rotationController;
         private Vector3 _destination;
 
         public void Init(GameObject gameObject)
         {
             _patrol = gameObject.GetComponent<Patrol>();
-            _movement = gameObject.GetComponent<Moving>();
+            _movementController = gameObject.GetComponent<AIMovementController>();
+            _rotationController = gameObject.GetComponent<RotationController>();
             _distanceChecker = gameObject.GetComponent<DistanceChecker>();
             _destination = _patrol.GetNextPoint();
         }
@@ -23,7 +26,8 @@ namespace BraidGirl.Scripts.AI.Patrol
         {
             if (_distanceChecker.Check(_destination))
                 _destination = _patrol.GetNextPoint();
-            _movement.MoveAndRotate(_destination);
+            _rotationController.Execute(_destination);
+            _movementController.Execute(_destination);
         }
     }
 }

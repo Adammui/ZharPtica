@@ -9,7 +9,6 @@ namespace BraidGirl.Scripts.Push
     public class EnemyPush : BasePush
     {
         private NavMeshAgent _agent;
-        // V = S * t
         // _distance = _speed * _time
         // _time = _distance / _speed
         private void Awake()
@@ -32,7 +31,7 @@ namespace BraidGirl.Scripts.Push
                 normalizedTime += Time.deltaTime / _duration;
                 yield return null;
             }
-
+            _onReset.Invoke();
         }
     }
 }
